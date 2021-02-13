@@ -14,7 +14,7 @@ Pod::Spec.new do |spec|
 
   spec.module_name  = "ReSwift_Persist"
   spec.source = {
-    :git => "https://github.com/muzix/ReSwift-Persist.git",
+    :git => "https://github.com/BakrID/ReSwift-Persist.git",
     :tag => spec.version.to_s }
 
   spec.ios.deployment_target = "8.0"
