@@ -19,7 +19,7 @@ public struct PersistConfig {
 
     public init(persistDirectory: String,
                 version: String,
-                reser: Bool,
+                reset: Bool,
                 jsonDecoder: (() -> JSONDecoder)? = nil,
                 jsonEncoder: (() -> JSONEncoder)? = nil,
                 migration: [String: AnyMigratable]? = nil) {
