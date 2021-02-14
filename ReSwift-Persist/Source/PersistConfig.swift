@@ -23,7 +23,7 @@ public struct PersistConfig {
                 jsonDecoder: (() -> JSONDecoder)? = nil,
                 jsonEncoder: (() -> JSONEncoder)? = nil,
                 migration: [String: AnyMigratable]? = nil) {
-        self.reset = reset
+        self.reset = reset ? reset : false
         self.persistDirectory = persistDirectory
         self.version = version
         self.jsonDecoder = jsonDecoder ?? {
