@@ -38,6 +38,11 @@ func persistReducer<State: PersistState>(
 }
 
 private func restoreData<State: PersistState>(config: PersistConfig) -> State? {
+    if (config.reset) {
+        print("Reseeting persisted data.")
+        return nil
+    }
+    
     let stateTypeName = String(describing: State.self)
     let stateDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         .appendingPathComponent(config.persistDirectory)

@@ -10,6 +10,7 @@ import Foundation
 
 public struct PersistConfig {
     let persistDirectory: String
+    let reset: Bool
     let version: String
     let jsonDecoder: (() -> JSONDecoder)
     let jsonEncoder: (() -> JSONEncoder)
@@ -18,9 +19,11 @@ public struct PersistConfig {
 
     public init(persistDirectory: String,
                 version: String,
+                reser: Bool,
                 jsonDecoder: (() -> JSONDecoder)? = nil,
                 jsonEncoder: (() -> JSONEncoder)? = nil,
                 migration: [String: AnyMigratable]? = nil) {
+        self.reset = reset
         self.persistDirectory = persistDirectory
         self.version = version
         self.jsonDecoder = jsonDecoder ?? {
