@@ -23,5 +23,5 @@ Pod::Spec.new do |spec|
   spec.requires_arc     = true
   spec.source_files     = 'ReSwift-Persist/Source/**/*'
 
-  spec.dependency "ReSwift", "~> 6.0.0"
+  spec.dependency "ReSwift", "~> 6.1.0"
 end
