@@ -19,11 +19,13 @@ func persistReducer<State: PersistState>(
     return { (_ action: Action, _ state: State?) in
         switch action {
         case _ as ReSwiftInit: // Try restore state right after initialization of ReSwift
+            NSLog("==========> ReSwiftInit");
             guard let restoredState: State = restoreData(config: config) else {
                 return baseReducer(action, state)
             }
             return restoredState
         default: // Save state for any new action
+            NSLog("==========> baseReducer");
             let newState = baseReducer(action, state)
 
             // Should skip persist step ?
@@ -38,6 +40,7 @@ func persistReducer<State: PersistState>(
 }
 
 private func restoreData<State: PersistState>(config: PersistConfig) -> State? {
+    NSLog("restoreData")
     if (config.reset) {
         print("Reseeting persisted data.")
         return nil
@@ -163,7 +166,9 @@ private func getCurrentSchemaVersion(config: PersistConfig, stateTypeName: Strin
     }
 }
 
-private func readDecodableFromFile<T: Decodable>(url: URL, jsonDecoder: JSONDecoder = JSONDecoder()) throws ->  T  {
+private func readDecodableFromFile<T: Decodable>(url: URL) throws ->  T  {
+    let jsonDecoder: JSONDecoder = JSONDecoder();
+    jsonDecoder.dateDecodingStrategy = .iso8601;
     let contents = try Data(contentsOf: url)
     let instance = try jsonDecoder.decode(T.self, from: contents)
     return instance
@@ -172,7 +177,9 @@ private func readDecodableFromFile<T: Decodable>(url: URL, jsonDecoder: JSONDeco
 private func saveData<State: PersistState>(config: PersistConfig, newState: State) {
     // Save new state to json
     do {
-        let json = try config.jsonEncoder().encode(newState)
+        let encoder = config.jsonEncoder();
+        encoder.dateEncodingStrategy = .iso8601
+        let json = try encoder.encode(newState)
         let jsonString = String(data: json, encoding: .utf8)
         let stateTypeName = String(describing: State.self)
         let stateDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
